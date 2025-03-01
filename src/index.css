@@ -1,0 +1,19 @@
+/* Shadcn UI */
+@import "shadcn.ui";
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+
+body,
+html,
+#root {
+  /* max-width: 1280px; */
+  margin: 0 auto;
+  /* padding: 2rem; */
+  /* text-align: center; */
+  font-family: "Poppins", sans-serif;
+  background-color: gray;
+  font-size: "12px";
+}
