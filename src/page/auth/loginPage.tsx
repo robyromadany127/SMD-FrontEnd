@@ -1,6 +1,7 @@
 import { MouseEvent, useState } from "react";
 import LayoutLogin from "../../layout/loginLayout";
 import { useTranslation } from "react-i18next";
+import { EyeClosedIcon, EyeOpenIcon } from "../../assets/icon";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,7 @@ export default function LoginPage() {
                 placeholder={t("enterPassword")}
               />
               <button className="btn btn-icon" onClick={togglePassword}>
-                see
+                {showPassword ? EyeClosedIcon : EyeOpenIcon}
               </button>
             </label>
           </div>

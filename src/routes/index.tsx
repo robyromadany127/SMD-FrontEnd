@@ -5,7 +5,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 const routes: RouteObject[] = [
   {
     path: "/",
-    element: <LoginPage />,
+    children: [
+      {
+        index: true,
+        element: <LoginPage />,
+      },
+    ],
   },
 ];
 
