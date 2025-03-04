@@ -12,7 +12,7 @@ const routes: RouteObject[] = [
         element: <LoginPage />,
       },
       {
-        path: "home",
+        path: "dashboard",
         element: <HomePage />,
       },
     ],

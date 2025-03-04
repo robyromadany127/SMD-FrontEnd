@@ -1,7 +1,6 @@
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 import LayoutLogin from "../../layout/loginLayout";
 import { useTranslation } from "react-i18next";
-import { EyeClosedIcon, EyeOpenIcon } from "../../assets/icon";
 import InputComponent from "@/components/shared/inputComponent";
 
 export default function LoginPage() {

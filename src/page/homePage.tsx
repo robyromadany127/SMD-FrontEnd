@@ -1,15 +1,15 @@
 import MainLayout from "@/layout/mainLayout";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function HomePage() {
+  const { t } = useTranslation();
   useEffect(() => {
-    document.title = "Home Page";
+    document.title = "SMD" + " - " + t("dashboard");
   }, []);
   return (
-    <MainLayout>
-      <div className="flex-col bg-red-500 h-full">
-        <h1>Home Page</h1>
-      </div>
+    <MainLayout title={t("dashboard")}>
+      <div className="flex-col">{t("dashboard")}</div>
     </MainLayout>
   );
 }
