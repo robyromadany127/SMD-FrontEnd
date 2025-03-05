@@ -1,0 +1,14 @@
+[
+  {
+    "title": "English",
+    "value": "en",
+    "image": "https://flagcdn.com/us.svg",
+    "alt": "English"
+  },
+  {
+    "title": "Indonesian",
+    "value": "id",
+    "image": "https://flagcdn.com/id.svg",
+    "alt": "Indonesian"
+  }
+]
