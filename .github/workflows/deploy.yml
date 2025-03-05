@@ -1,4 +1,4 @@
-name: Auto Deploy Frontend
+name: Auto Deploy Frontend (Zero Downtime)
 
 on:
   push:
@@ -24,21 +24,58 @@ jobs:
     - name: Build React app
       run: npm run build
 
-    - name: Deploy to VPS
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "dist/*"
-        target: "/var/www/frontend"
-
-    - name: Restart Nginx
+    - name: Upload build to VPS (Blue-Green Deployment)
       uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
+          set -e  # Hentikan jika ada error
+          
+          # Buat direktori releases jika belum ada
+          sudo mkdir -p /var/www/frontend/releases
+
+          # Buat direktori baru berdasarkan timestamp
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          NEW_RELEASE="/var/www/frontend/releases/$TIMESTAMP"
+          sudo mkdir -p $NEW_RELEASE
+
+          echo "Uploading new build to $NEW_RELEASE..."
+      
+          exit 0  # Keluar agar SCP Action berjalan lebih dulu
+
+    - name: SCP Upload to VPS
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "dist/*"
+        target: "/var/www/frontend/releases/$TIMESTAMP"
+
+    - name: Switch Symlink to New Release
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          set -e
+
+          # Pastikan variabel timestamp sudah ada
+          NEW_RELEASE=$(ls -td /var/www/frontend/releases/* | head -1)
+
+          if [ -z "$NEW_RELEASE" ]; then
+            echo "Error: No new release found!"
+            exit 1
+          fi
+
+          echo "Switching symlink to $NEW_RELEASE..."
+          sudo ln -sfn $NEW_RELEASE /var/www/frontend/current
+          
+          # Reload Nginx tanpa downtime
           sudo systemctl reload nginx
 
+          # Hapus rilis lama, hanya simpan 3 versi terbaru
+          ls -td /var/www/frontend/releases/* | tail -n +4 | xargs sudo rm -rf
