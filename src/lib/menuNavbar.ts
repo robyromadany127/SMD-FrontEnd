@@ -53,7 +53,7 @@ export const useMenuNavbar = () => {
       // path: "/donatur",
       submenu: [
         { label: t("donor"), path: "/donor/donor" },
-        { label: t("preferences"), path: "/donatur/preferences" },
+        { label: t("preferences"), path: "/donor/preferences" },
       ],
     },
     {

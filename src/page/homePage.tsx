@@ -1,15 +1,16 @@
-import MainLayout from "@/layout/mainLayout";
+import { Container } from "@/components";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import MemoizedFormattedMessage from "react-intl/src/components/message";
 
 export default function HomePage() {
-  const { t } = useTranslation();
   useEffect(() => {
-    document.title = "SMD" + " - " + t("dashboard");
+    document.title = "SMD" + " - " + "Dashboard";
   }, []);
   return (
-    <MainLayout title={t("dashboard")}>
-      <div className="flex-col">{t("dashboard")}</div>
-    </MainLayout>
+    <Container className=" max-h-[90vh] min-h-[80vh] overflow-y-auto">
+      <div className="flex-col ">
+        <MemoizedFormattedMessage id="dashboard" />
+      </div>
+    </Container>
   );
 }

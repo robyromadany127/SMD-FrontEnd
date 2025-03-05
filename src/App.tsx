@@ -1,22 +1,35 @@
-import React, { useEffect } from "react";
-import Router from "./routes";
-import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { useSettings } from "@/providers/SettingsProvider";
+import { AppRouting } from "@/routing";
+import { PathnameProvider } from "@/providers";
+import { Toaster } from "@/components/ui/sonner";
 
-const App: React.FC = () => {
-  const { i18n } = useTranslation();
+const { BASE_URL } = import.meta.env;
+
+const App = () => {
+  const { settings } = useSettings();
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language");
-    if (savedLanguage) {
-      i18n.changeLanguage(savedLanguage);
-    }
-  }, [i18n]);
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add(settings.themeMode);
+  }, [settings]);
 
   return (
-    <>
-      <Router />
-    </>
+    <BrowserRouter
+      basename={BASE_URL}
+      future={{
+        v7_relativeSplatPath: true,
+        v7_startTransition: true,
+      }}
+    >
+      <PathnameProvider>
+        <AppRouting />
+      </PathnameProvider>
+      <Toaster />
+    </BrowserRouter>
   );
 };
 
-export default App;
+export { App };
