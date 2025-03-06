@@ -70,8 +70,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           set -e
-          NEW_RELEASE="/var/www/frontend/current/dist"
-          echo -n "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
+          NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
+          echo -n "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/dist/.env > /dev/null
 
     - name: Update Nginx Configuration
       uses: appleboy/ssh-action@v0.1.7
