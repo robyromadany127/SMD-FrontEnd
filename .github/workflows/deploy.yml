@@ -92,7 +92,7 @@ jobs:
               listen 80;
               server_name dev.smd.nyv.my.id www.dev.smd.nyv.my.id;
 
-              root /var/www/frontend/current/dist;
+              root /var/www/frontend/current;
               index index.html;
               location / {
                   try_files \$uri /index.html;
