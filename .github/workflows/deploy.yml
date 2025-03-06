@@ -40,7 +40,7 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          set -e  # Hentikan jika ada error
+          set -e
           
           # Buat direktori releases jika belum ada
           sudo mkdir -p /var/www/frontend/releases
@@ -75,6 +75,39 @@ jobs:
           
           echo "Writing .env file in $NEW_RELEASE..."
           echo "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
+
+    - name: Update Nginx Configuration
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          set -e
+
+          echo "Updating Nginx configuration..."
+
+          sudo tee /etc/nginx/sites-available/frontend > /dev/null <<EOF
+          server {
+              listen 80;
+              server_name smd.nyv.my.id;
+
+              root /var/www/frontend/current;
+              index index.html;
+              location / {
+                  try_files \$uri /index.html;
+              }
+
+              error_page 404 /index.html;
+
+              access_log /var/log/nginx/frontend_access.log;
+              error_log /var/log/nginx/frontend_error.log;
+          }
+          EOF
+
+          sudo ln -sf /etc/nginx/sites-available/frontend /etc/nginx/sites-enabled/frontend
+          
+          sudo nginx -t && sudo systemctl reload nginx
 
     - name: Switch Symlink to New Release
       uses: appleboy/ssh-action@v0.1.7
