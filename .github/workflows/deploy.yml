@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        ref: dev
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -23,6 +25,13 @@ jobs:
 
     - name: Build React app
       run: npm run build
+
+    - name: Debug build output
+      run: ls -lah dist
+
+    - name: Set deployment timestamp
+      id: set_timestamp
+      run: echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
     - name: Upload build to VPS (Blue-Green Deployment)
       uses: appleboy/ssh-action@v0.1.7
@@ -37,12 +46,11 @@ jobs:
           sudo mkdir -p /var/www/frontend/releases
 
           # Buat direktori baru berdasarkan timestamp
-          TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          NEW_RELEASE="/var/www/frontend/releases/$TIMESTAMP"
+          NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
           sudo mkdir -p $NEW_RELEASE
 
           echo "Uploading new build to $NEW_RELEASE..."
-      
+
           exit 0  # Keluar agar SCP Action berjalan lebih dulu
 
     - name: SCP Upload to VPS
@@ -52,7 +60,7 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "dist/*"
-        target: "/var/www/frontend/releases/$TIMESTAMP"
+        target: "/var/www/frontend/releases/${{ env.TIMESTAMP }}"
 
     - name: Create .env file on VPS
       uses: appleboy/ssh-action@v0.1.7
@@ -63,11 +71,7 @@ jobs:
         script: |
           set -e
           
-          NEW_RELEASE=$(ls -td /var/www/frontend/releases/* | head -1)
-          if [ -z "$NEW_RELEASE" ]; then
-            echo "Error: No new release found!"
-            exit 1
-          fi
+          NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
           
           echo "Writing .env file in $NEW_RELEASE..."
           echo "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
@@ -81,11 +85,10 @@ jobs:
         script: |
           set -e
 
-          # Pastikan variabel timestamp sudah ada
-          NEW_RELEASE=$(ls -td /var/www/frontend/releases/* | head -1)
-
-          if [ -z "$NEW_RELEASE" ]; then
-            echo "Error: No new release found!"
+          NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
+          
+          if [ ! -d "$NEW_RELEASE" ]; then
+            echo "Error: New release directory not found!"
             exit 1
           fi
 
@@ -97,3 +100,6 @@ jobs:
 
           # Hapus rilis lama, hanya simpan 3 versi terbaru
           ls -td /var/www/frontend/releases/* | tail -n +4 | xargs sudo rm -rf
+
+          # Bersihkan cache Nginx
+          sudo systemctl restart nginx
