@@ -89,20 +89,42 @@ jobs:
 
           sudo tee /etc/nginx/sites-available/frontend > /dev/null <<EOF
           server {
-              listen 80;
-              server_name dev.smd.nyv.my.id www.dev.smd.nyv.my.id;
+                server_name dev.smd.nyv.my.id www.dev.smd.nyv.my.id;
 
-              root /var/www/frontend/current;
-              index index.html;
-              location / {
-                  try_files \$uri /index.html;
-              }
+                root /var/www/frontend/current;
+                index index.html;
 
-              error_page 404 /index.html;
+                location / {
+                    try_files $uri /index.html;
+                }
 
-              access_log /var/log/nginx/frontend_access.log;
-              error_log /var/log/nginx/frontend_error.log;
-          }
+                listen 443 ssl; # managed by Certbot
+                ssl_certificate /etc/letsencrypt/live/dev.smd.nyv.my.id/fullchain.pem; # managed by Certbot
+                ssl_certificate_key /etc/letsencrypt/live/dev.smd.nyv.my.id/privkey.pem; # managed by Certbot
+                include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+                ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+            }
+            server {
+                if ($host = www.dev.smd.nyv.my.id) {
+                    return 301 https://$host$request_uri;
+                } # managed by Certbot
+
+
+                if ($host = dev.smd.nyv.my.id) {
+                    return 301 https://$host$request_uri;
+                } # managed by Certbot
+
+
+                listen 80;
+                server_name dev.smd.nyv.my.id www.dev.smd.nyv.my.id;
+                return 404; # managed by Certbot
+
+
+
+
+            }
           EOF
 
           sudo ln -sf /etc/nginx/sites-available/frontend /etc/nginx/sites-enabled/frontend
