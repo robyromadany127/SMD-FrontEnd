@@ -1,29 +1,29 @@
 import { useState } from "react";
 import LayoutLogin from "../../layout/loginLayout";
-import { useTranslation } from "react-i18next";
 import InputComponent from "@/components/shared/inputComponent";
+import { useIntl } from "react-intl";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const { t } = useTranslation();
+  const intl = useIntl();
 
   return (
     <LayoutLogin>
       <div className="card max-w-[390px] w-full">
         <form className="card-body flex flex-col gap-5 p-10" noValidate>
           <InputComponent
-            label={t("username")}
-            placeholder={t("enterUsername")}
+            label={intl.formatMessage({ id: "username" })}
+            placeholder={intl.formatMessage({ id: "enterUsername" })}
           />
           <InputComponent
-            label={t("password")}
+            label={intl.formatMessage({ id: "password" })}
             type={showPassword ? "text" : "password"}
             password
             showPassword={showPassword}
             setShowPassword={setShowPassword}
-            placeholder={t("enterPassword")}
+            placeholder={intl.formatMessage({ id: "enterPassword" })}
           />
 
           <button

@@ -1,11 +1,11 @@
 import { EyeClosedIcon, EyeOpenIcon } from "@/assets/icon";
-import { MouseEvent } from "react";
+import { MouseEvent, ReactNode } from "react";
 
 interface Props {
   onChange?: (value: string) => void;
   value?: string;
   placeholder?: string;
-  label?: string;
+  label?: string | ReactNode;
   type?: string;
   password?: boolean;
   disabled?: boolean;
