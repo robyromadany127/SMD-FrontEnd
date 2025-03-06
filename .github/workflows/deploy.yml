@@ -70,7 +70,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           set -e
-          NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
+          NEW_RELEASE="/var/www/frontend/current/dist"
           echo -n "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
 
     - name: Update Nginx Configuration
@@ -85,7 +85,7 @@ jobs:
           sudo tee /etc/nginx/sites-available/frontend > /dev/null <<EOF
           server {
               server_name dev.smd.nyv.my.id www.dev.smd.nyv.my.id;
-              root /var/www/frontend/current;
+              root /var/www/frontend/current/dist;
               index index.html;
               location / {
                   try_files \$uri /index.html;
