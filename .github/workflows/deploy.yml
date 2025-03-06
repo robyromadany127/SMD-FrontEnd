@@ -33,18 +33,6 @@ jobs:
         script: |
           set -e  # Hentikan jika ada error
           
-          cd /var/www/frontend  # Masuk ke direktori proyek di VPS
-          
-          # Cek branch saat ini
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          if [ "$BRANCH_NAME" != "dev" ]; then
-            echo "Branch aktif bukan 'dev'. Berpindah ke 'dev'..."
-            git checkout dev
-            git pull origin dev
-          else
-            echo "Sudah berada di branch 'dev'."
-          fi
-
           # Buat direktori releases jika belum ada
           sudo mkdir -p /var/www/frontend/releases
 
