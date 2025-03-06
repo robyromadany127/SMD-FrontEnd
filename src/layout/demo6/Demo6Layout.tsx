@@ -1,5 +1,5 @@
-import useBodyClasses from '@/hooks/useBodyClasses';
-import { Demo6LayoutProvider, Main } from './';
+import useBodyClasses from "@/hooks/useBodyClasses";
+import { Demo6LayoutProvider, Main } from "./";
 
 const Demo6Layout = () => {
   // Using the custom hook to set multiple CSS variables and class properties
@@ -13,7 +13,7 @@ const Demo6Layout = () => {
     [--tw-sidebar-width:270px]
     bg-[--tw-page-bg]
     dark:bg-[--tw-page-bg-dark]
-    lg:overflow-hidden
+    lg:overflow-auto
   `);
 
   return (

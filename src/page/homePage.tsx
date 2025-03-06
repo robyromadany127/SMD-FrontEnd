@@ -3,13 +3,19 @@ import { useEffect } from "react";
 import MemoizedFormattedMessage from "react-intl/src/components/message";
 
 export default function HomePage() {
+  const textFromEnv = import.meta.env.VITE_TESTING_TEXT;
   useEffect(() => {
     document.title = "SMD" + " - " + "Dashboard";
   }, []);
   return (
-    <Container className=" max-h-[90vh] min-h-[80vh] overflow-y-auto">
-      <div className="flex-col ">
-        <MemoizedFormattedMessage id="dashboard" />
+    <Container>
+      <div className="flex gap-5 bg-red-100">
+        <div>
+          <MemoizedFormattedMessage id="dashboard" />
+        </div>
+        <div>
+          <text href="">{textFromEnv}</text>
+        </div>
       </div>
     </Container>
   );
