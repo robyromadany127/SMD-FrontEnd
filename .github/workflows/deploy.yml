@@ -54,6 +54,24 @@ jobs:
         source: "dist/*"
         target: "/var/www/frontend/releases/$TIMESTAMP"
 
+    - name: Create .env file on VPS
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          set -e
+          
+          NEW_RELEASE=$(ls -td /var/www/frontend/releases/* | head -1)
+          if [ -z "$NEW_RELEASE" ]; then
+            echo "Error: No new release found!"
+            exit 1
+          fi
+          
+          echo "Writing .env file in $NEW_RELEASE..."
+          echo "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
+
     - name: Switch Symlink to New Release
       uses: appleboy/ssh-action@v0.1.7
       with:
