@@ -40,7 +40,7 @@ jobs:
         username: ${{ secrets.VPS_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          set -e
+          set -e  # Hentikan jika ada error
           
           # Buat direktori releases jika belum ada
           sudo mkdir -p /var/www/frontend/releases
@@ -51,7 +51,7 @@ jobs:
 
           echo "Uploading new build to $NEW_RELEASE..."
 
-          exit 0
+          exit 0  # Keluar agar SCP Action berjalan lebih dulu
 
     - name: SCP Upload to VPS
       uses: appleboy/scp-action@v0.1.7
@@ -75,3 +75,31 @@ jobs:
           
           echo "Writing .env file in $NEW_RELEASE..."
           echo "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
+
+    - name: Switch Symlink to New Release
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          set -e
+
+          NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
+          
+          if [ ! -d "$NEW_RELEASE" ]; then
+            echo "Error: New release directory not found!"
+            exit 1
+          fi
+
+          echo "Switching symlink to $NEW_RELEASE..."
+          sudo ln -sfn $NEW_RELEASE /var/www/frontend/current
+          
+          # Reload Nginx tanpa downtime
+          sudo systemctl reload nginx
+
+          # Hapus rilis lama, hanya simpan 3 versi terbaru
+          ls -td /var/www/frontend/releases/* | tail -n +4 | xargs sudo rm -rf
+
+          # Bersihkan cache Nginx
+          sudo systemctl restart nginx
