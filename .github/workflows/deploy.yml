@@ -20,6 +20,11 @@ jobs:
       with:
         node-version: 23
 
+    - name: Create .env file before build
+      run: |
+        echo "${{ secrets.ENV_FILE }}" > .env
+        cat .env  # Debug: Pastikan isi .env benar (hapus jika tidak perlu)
+
     - name: Install dependencies
       run: npm install
 
@@ -61,17 +66,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         source: "dist/*"
         target: "/var/www/frontend/releases/${{ env.TIMESTAMP }}"
-
-    - name: Create .env file on VPS
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          set -e
-          NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
-          echo -n "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
 
     - name: Update Nginx Configuration
       uses: appleboy/ssh-action@v0.1.7
