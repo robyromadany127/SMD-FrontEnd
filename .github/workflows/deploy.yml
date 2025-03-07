@@ -71,7 +71,7 @@ jobs:
         script: |
           set -e
           NEW_RELEASE="/var/www/frontend/releases/${{ env.TIMESTAMP }}"
-          echo -n "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/dist/.env > /dev/null
+          echo -n "${{ secrets.ENV_FILE }}" | sudo tee $NEW_RELEASE/.env > /dev/null
 
     - name: Update Nginx Configuration
       uses: appleboy/ssh-action@v0.1.7
