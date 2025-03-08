@@ -2,10 +2,11 @@ import { type TMenuConfig } from "@/components/menu";
 import MemoizedFormattedMessage from "react-intl/src/components/message";
 
 export const MENU_SIDEBAR: TMenuConfig = [
-  // {
-  //   title: <MemoizedFormattedMessage id="dashboard" />,
-  //   path: "/dashboard",
-  // },
+  {
+    title: <MemoizedFormattedMessage id="dashboard" />,
+    path: "/dashboard",
+    icon: "home-3",
+  },
   {
     title: <MemoizedFormattedMessage id="admin" />,
     icon: "profile-circle",

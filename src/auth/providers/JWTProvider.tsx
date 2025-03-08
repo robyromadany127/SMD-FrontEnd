@@ -1,23 +1,26 @@
 /* eslint-disable no-unused-vars */
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 import {
   createContext,
   type Dispatch,
   type PropsWithChildren,
   type SetStateAction,
   useEffect,
-  useState
-} from 'react';
+  useState,
+} from "react";
 
-import * as authHelper from '../_helpers';
-import { type AuthModel, type UserModel } from '@/auth';
+import * as authHelper from "../_helpers";
+import { type AuthModel, type UserModel } from "@/auth";
+import { API } from "@/lib/api";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
-export const LOGIN_URL = `${API_URL}/login`;
+export const LOGIN_URL = `/auth`;
 export const REGISTER_URL = `${API_URL}/register`;
 export const FORGOT_PASSWORD_URL = `${API_URL}/forgot-password`;
 export const RESET_PASSWORD_URL = `${API_URL}/reset-password`;
 export const GET_USER_URL = `${API_URL}/user`;
+export const BASIC_AUTH_USERNAME = import.meta.env.VITE_BASIC_AUTH_USERNAME;
+export const BASIC_AUTH_PASSWORD = import.meta.env.VITE_BASIC_AUTH_PASSWORD;
 
 interface AuthContextProps {
   loading: boolean;
@@ -30,7 +33,11 @@ interface AuthContextProps {
   loginWithGoogle?: () => Promise<void>;
   loginWithFacebook?: () => Promise<void>;
   loginWithGithub?: () => Promise<void>;
-  register: (email: string, password: string, password_confirmation: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    password_confirmation: string
+  ) => Promise<void>;
   requestPasswordResetLink: (email: string) => Promise<void>;
   changePassword: (
     email: string,
@@ -73,25 +80,37 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const { data: auth } = await axios.post<AuthModel>(LOGIN_URL, {
-        email,
-        password
-      });
+      const { data: auth } = await API.post<AuthModel>(
+        LOGIN_URL,
+        {
+          nomor_induk_karyawan: email,
+          password,
+        },
+        {
+          headers: {
+            Authorization: `${btoa(`${BASIC_AUTH_USERNAME}:${BASIC_AUTH_PASSWORD}`)}`,
+          },
+        }
+      );
       saveAuth(auth);
-      const { data: user } = await getUser();
-      setCurrentUser(user);
+      // const { data: user } = await getUser();
+      // setCurrentUser(user);
     } catch (error) {
       saveAuth(undefined);
       throw new Error(`Error ${error}`);
     }
   };
 
-  const register = async (email: string, password: string, password_confirmation: string) => {
+  const register = async (
+    email: string,
+    password: string,
+    password_confirmation: string
+  ) => {
     try {
       const { data: auth } = await axios.post(REGISTER_URL, {
         email,
         password,
-        password_confirmation
+        password_confirmation,
       });
       saveAuth(auth);
       const { data: user } = await getUser();
@@ -104,7 +123,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const requestPasswordResetLink = async (email: string) => {
     await axios.post(FORGOT_PASSWORD_URL, {
-      email
+      email,
     });
   };
 
@@ -118,7 +137,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       email,
       token,
       password,
-      password_confirmation
+      password_confirmation,
     });
   };
 
@@ -146,7 +165,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         changePassword,
         getUser,
         logout,
-        verify
+        verify,
       }}
     >
       {children}

@@ -15,7 +15,7 @@ const Footer = () => {
               // target="_blank"
               className="text-gray-600 hover:text-primary"
             >
-              SMD Project
+              {import.meta.env.VITE_APP_NAME || "SMD"}
             </a>
           </div>
           {/* <nav className="flex order-1 md:order-2 gap-4 font-normal text-2sm text-gray-600">

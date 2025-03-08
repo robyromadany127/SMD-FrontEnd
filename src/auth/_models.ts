@@ -1,9 +1,8 @@
 import { type TLanguageCode } from "@/i18n/index";
 
 export interface AuthModel {
-  access_token: string;
-  refreshToken?: string;
-  api_token: string;
+  token: string;
+  expiredAt: string;
 }
 
 export interface UserModel {

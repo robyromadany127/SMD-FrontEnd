@@ -11,6 +11,7 @@ interface Props {
   disabled?: boolean;
   showPassword?: boolean;
   setShowPassword?: (value: boolean) => void;
+  className?: string;
 }
 
 export default function InputComponent({
@@ -23,6 +24,7 @@ export default function InputComponent({
   disabled,
   showPassword,
   setShowPassword,
+  className,
 }: Props) {
   const togglePassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -39,6 +41,7 @@ export default function InputComponent({
           onChange={(e) => onChange?.(e.target.value)}
           value={value}
           disabled={disabled}
+          className={className}
         />
         {password && (
           <button className="btn btn-icon" onClick={togglePassword}>

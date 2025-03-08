@@ -1,6 +1,6 @@
-import { matchPath } from 'react-router';
+import { matchPath } from "react-router";
 
-import { IMenuItemConfig, type TMenuConfig } from '../types';
+import { IMenuItemConfig, type TMenuConfig } from "../types";
 
 const useMenuCurrentItem = (
   pathname: string,
@@ -8,7 +8,9 @@ const useMenuCurrentItem = (
 ): IMenuItemConfig | null => {
   pathname = pathname.trim();
 
-  const findCurrentItem = (items: TMenuConfig | null): IMenuItemConfig | null => {
+  const findCurrentItem = (
+    items: TMenuConfig | null
+  ): IMenuItemConfig | null => {
     if (!items) return null;
 
     for (let i = 0; i < items.length; i++) {

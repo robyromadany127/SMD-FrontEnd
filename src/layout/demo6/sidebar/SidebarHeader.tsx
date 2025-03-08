@@ -64,7 +64,7 @@ const SidebarHeader = forwardRef<HTMLDivElement, any>((props, ref) => {
           >
             <MenuLabel className="cursor-pointer text-gray-900 font-medium grow justify-between">
               <span className="text-base font-medium text-gray-900 grow justify-start">
-                SMD PROJECT
+                {import.meta.env.VITE_APP_NAME}
               </span>
               <MenuArrow>
                 <ChevronDown color="gray" size={20} />

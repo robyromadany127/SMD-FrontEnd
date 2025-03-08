@@ -25,7 +25,7 @@ const DropdownUserLanguages = ({
     changeLanguage(lang);
 
     if (menuItemRef.current) {
-      menuItemRef.current.hide(); // Call the closeMenu method to hide the submenu
+      menuItemRef.current.hide();
     }
   };
 

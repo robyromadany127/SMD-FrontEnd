@@ -6,24 +6,24 @@ import {
   Footer,
   Header,
   Sidebar,
-  // Toolbar,
-  // ToolbarActions,
-  // ToolbarHeading,
+  Toolbar,
+  ToolbarActions,
+  ToolbarHeading,
 } from "../";
 import { useMenus } from "@/providers";
 import { useResponsive } from "@/hooks";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-// import {
-//   Popover,
-//   PopoverContent,
-//   PopoverTrigger,
-// } from "@/components/ui/popover";
-// import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import { DateRange } from "react-day-picker";
 import { addDays, format } from "date-fns";
-// import { cn } from "@/lib/utils";
-// import { KeenIcon } from "@/components/keenicons";
+import { cn } from "@/lib/utils";
+import { KeenIcon } from "@/components/keenicons";
 
 const Main = () => {
   const mobileMode = useResponsive("down", "lg");
@@ -39,9 +39,9 @@ const Main = () => {
 
   return (
     <Fragment>
-      <Helmet>
+      {/* <Helmet>
         <title>{menuItem?.title}</title>
-      </Helmet>
+      </Helmet> */}
 
       <div className="flex grow">
         <Sidebar />
@@ -55,7 +55,10 @@ const Main = () => {
                   <ToolbarHeading />
 
                   <ToolbarActions>
-                    <Link to={'/account/home/get-started'} className="btn btn-sm btn-light">
+                    <Link
+                      to={"/account/home/get-started"}
+                      className="btn btn-sm btn-light"
+                    >
                       <KeenIcon icon="exit-down !text-base" />
                       Export
                     </Link>
@@ -64,18 +67,19 @@ const Main = () => {
                         <button
                           id="date"
                           className={cn(
-                            'btn btn-sm btn-light data-[state=open]:bg-light-active',
-                            !date && 'text-gray-400'
+                            "btn btn-sm btn-light data-[state=open]:bg-light-active",
+                            !date && "text-gray-400"
                           )}
                         >
                           <KeenIcon icon="calendar" className="me-0.5" />
                           {date?.from ? (
                             date.to ? (
                               <>
-                                {format(date.from, 'LLL dd, y')} - {format(date.to, 'LLL dd, y')}
+                                {format(date.from, "LLL dd, y")} -{" "}
+                                {format(date.to, "LLL dd, y")}
                               </>
                             ) : (
-                              format(date.from, 'LLL dd, y')
+                              format(date.from, "LLL dd, y")
                             )
                           ) : (
                             <span>Pick a date range</span>

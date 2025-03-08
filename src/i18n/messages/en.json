@@ -16,7 +16,7 @@
   "username": "Username",
   "password": "Password",
   "enterUsername": "Enter username",
-  "enterPassword": "Enter password",
+  "enterPassword": "Enter Password",
   "dashboard": "Dashboard",
   "menu": "Menu",
   "user": "User",
@@ -48,5 +48,17 @@
   "cash advance request": "Cash Advance Request",
   "accounting": "Accounting",
   "account": "Account",
-  "jurnal": "Jurnal"
+  "jurnal": "Jurnal",
+  "employeeidentificationnumber": "Employee Identification Number",
+  "enteremployeeidentificationnumber": "Enter Employee Identification Number",
+  "please wait": "Please wait...",
+  "loading": "Loading...",
+  "sign in": "Sign In",
+  "logindetailsareincorrect": "Login details are incorrect",
+  "required.employeeidentificationnumber": "Employee Identification Number is required",
+  "required.password": "Password is required",
+  "error.internalservererror": "Internal Server Error",
+  "vendor": "Vendor",
+  "addCountry": "Add Country",
+  "createCountry": "Create Country"
 }
