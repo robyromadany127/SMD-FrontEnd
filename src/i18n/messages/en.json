@@ -62,5 +62,7 @@
   "addCountry": "Add Country",
   "createCountry": "Create Country",
   "or": "or",
-  "email": "Email"
+  "email": "Email",
+  "forgotPassword?": "Forgot Password?",
+  "addReligion": "Add Religion"
 }

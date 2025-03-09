@@ -57,5 +57,12 @@
   "sign in": "Masuk",
   "logindetailsareincorrect": "Detail login salah",
   "required.employeeidentificationnumber": "Nomor Identifikasi Karyawan wajib diisi",
-  "required.password": "Kata sandi wajib diisi"
+  "required.password": "Kata sandi wajib diisi",
+  "error.internalservererror": "Kesalahan Server Internal",
+  "vendor": "Vendor",
+  "addCountry": "Tambah Negara",
+  "createCountry": "Buat Negara",
+  "or": "atau",
+  "email": "Email",
+  "forgotPassword?": "Lupa Kata Sandi?"
 }

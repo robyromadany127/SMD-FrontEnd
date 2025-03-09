@@ -160,7 +160,9 @@ export default function LoginPage() {
 
           <div className="flex items-center gap-2">
             <span className="border-t border-red-600 w-full"></span>
-            <span className="text-2xs font-medium uppercase">Or</span>
+            <span className="text-2xs font-medium uppercase">
+              {intl.formatMessage({ id: "or" })}
+            </span>
             <span className="border-t border-red-600 w-full"></span>
           </div>
 
@@ -196,7 +198,7 @@ export default function LoginPage() {
                 {intl.formatMessage({ id: "password" })}
               </label>
               <Link to={"/reset-password"} className="text-2sm link shrink-0">
-                Forgot Password?
+                {intl.formatMessage({ id: "forgotPassword?" })}
               </Link>
             </div>
             <label className="input">
