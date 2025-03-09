@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import LayoutLogin from "../../../layout/loginLayout";
 import { useIntl } from "react-intl";
-import { Alert, MenuSeparator } from "@/components";
+import { Alert, MenuSeparator, ScreenLoader } from "@/components";
 import { DropdownUserLanguages } from "@/partials/dropdowns/user";
 import { useAuthContext } from "@/auth";
 import { useFormik } from "formik";
@@ -9,9 +9,10 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router";
 import clsx from "clsx";
 import { EyeClosedIcon, EyeOpenIcon } from "@/assets/icon";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
-  const { login } = useAuthContext();
+  const { login, auth } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -25,6 +26,12 @@ export default function LoginPage() {
   useEffect(() => {
     document.title = `${appAlias} - Login`;
   }, [appAlias]);
+
+  useEffect(() => {
+    if (auth) {
+      return navigate("/dashboard", { replace: true });
+    }
+  }, [auth]);
 
   const loginSchema = Yup.object().shape({
     nomor_induk_karyawan: Yup.string()
@@ -41,8 +48,8 @@ export default function LoginPage() {
 
   const formik = useFormik({
     initialValues: {
-      nomor_induk_karyawan: "",
-      password: "",
+      nomor_induk_karyawan: "1111111111",
+      password: "rahasia",
     },
     validationSchema: loginSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
@@ -53,11 +60,7 @@ export default function LoginPage() {
           throw new Error("JWTProvider is required for this form.");
         }
 
-        const response = await login(
-          values.nomor_induk_karyawan,
-          values.password
-        );
-        console.log("response", response);
+        await login(values.nomor_induk_karyawan, values.password);
 
         navigate("/dashboard", { replace: true });
       } catch {
@@ -121,16 +124,9 @@ export default function LoginPage() {
               <label className="form-label text-gray-900">
                 {intl.formatMessage({ id: "password" })}
               </label>
-              {/* <Link
-      to={
-        currentLayout?.name === 'auth-branded'
-          ? '/auth/reset-password'
-          : '/auth/classic/reset-password'
-      }
-      className="text-2sm link shrink-0"
-    >
-      Forgot Password?
-    </Link> */}
+              <Link to={"/reset-password"} className="text-2sm link shrink-0">
+                Forgot Password?
+              </Link>
             </div>
             <label className="input">
               <input

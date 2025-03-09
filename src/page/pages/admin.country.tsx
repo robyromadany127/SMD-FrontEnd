@@ -4,7 +4,7 @@ import { Fragment, useEffect } from "react";
 import { useIntl } from "react-intl";
 import MemoizedFormattedMessage from "react-intl/src/components/message";
 import { Link } from "react-router-dom";
-import { NetworkAppRosterContent } from "./network/user-table/app-roster";
+import { NetworkAppRosterContent } from "../network/user-table/app-roster";
 
 export default function AdminCountryPage() {
   const appAlias = import.meta.env.VITE_APP_ALIAS || "SMD";

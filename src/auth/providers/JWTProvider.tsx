@@ -18,7 +18,7 @@ export const LOGIN_URL = `/auth`;
 export const REGISTER_URL = `${API_URL}/register`;
 export const FORGOT_PASSWORD_URL = `${API_URL}/forgot-password`;
 export const RESET_PASSWORD_URL = `${API_URL}/reset-password`;
-export const GET_USER_URL = `${API_URL}/user`;
+export const GET_USER_URL = `/profile`;
 export const BASIC_AUTH_USERNAME = import.meta.env.VITE_BASIC_AUTH_USERNAME;
 export const BASIC_AUTH_PASSWORD = import.meta.env.VITE_BASIC_AUTH_PASSWORD;
 
@@ -80,6 +80,8 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = async (email: string, password: string) => {
     try {
+      const authHeader = `Basic ${btoa(`${BASIC_AUTH_USERNAME}:${BASIC_AUTH_PASSWORD}`)}`;
+
       const { data: auth } = await API.post<AuthModel>(
         LOGIN_URL,
         {
@@ -88,13 +90,14 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         },
         {
           headers: {
-            Authorization: `${btoa(`${BASIC_AUTH_USERNAME}:${BASIC_AUTH_PASSWORD}`)}`,
+            Authorization: authHeader,
           },
         }
       );
+
       saveAuth(auth);
-      // const { data: user } = await getUser();
-      // setCurrentUser(user);
+      const { data: user } = await getUser();
+      setCurrentUser(user);
     } catch (error) {
       saveAuth(undefined);
       throw new Error(`Error ${error}`);
@@ -142,7 +145,13 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const getUser = async () => {
-    return await axios.get<UserModel>(GET_USER_URL);
+    const getToken = authHelper.getAuth();
+
+    return await API.get<UserModel>(GET_USER_URL, {
+      headers: {
+        Authorization: `Bearer ${getToken?.data?.token}`,
+      },
+    });
   };
 
   const logout = () => {

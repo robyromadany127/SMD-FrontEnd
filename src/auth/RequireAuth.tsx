@@ -5,8 +5,8 @@ import { ScreenLoader } from "@/components/loaders";
 import { useAuthContext } from "./useAuthContext";
 
 const RequireAuth = () => {
-  const { auth, loading } = useAuthContext();
-  console.log("auth", auth, "loading", loading);
+  const { auth, loading, currentUser } = useAuthContext();
+  console.log("auth", auth, "loading", loading, "currentUser", currentUser);
   const location = useLocation();
 
   if (loading) {

@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UsersData, IUsersData } from "./";
+import { UsersData, IUsersData } from ".";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { useIntl } from "react-intl";
