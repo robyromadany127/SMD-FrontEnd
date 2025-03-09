@@ -48,7 +48,7 @@ const DropdownUser = ({ menuItemRef }: IDropdownUserProps) => {
           /> */}
           <div className="flex flex-col gap-1.5">
             <Link
-              to="/account/hoteme/get-stard"
+              to="/user/profile"
               className="text-sm text-gray-800 hover:text-primary font-semibold leading-none"
             >
               {currentUser?.data?.nama_depan}

@@ -13,12 +13,14 @@ import { Link } from "react-router-dom";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { toAbsoluteUrl } from "@/utils";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
 
 export default function LoginPage() {
   const { login, auth } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   const intl = useIntl();
 
@@ -57,6 +59,13 @@ export default function LoginPage() {
     validationSchema: loginSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
       setLoading(true);
+
+      if (!recaptchaToken) {
+        setStatus("Please complete the reCAPTCHA verification.");
+        setLoading(false);
+        setSubmitting(false);
+        return;
+      }
 
       try {
         if (!login) {
@@ -115,6 +124,10 @@ export default function LoginPage() {
       console.log("User Info:", userInfo.data);
     },
   });
+
+  function onChange(value: string | null) {
+    setRecaptchaToken(value);
+  }
 
   return (
     <LayoutLogin>
@@ -201,6 +214,10 @@ export default function LoginPage() {
               </span>
             )}
           </div>
+          <ReCAPTCHA
+            sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
+            onChange={onChange}
+          />
           <button
             type="submit"
             className="btn btn-primary flex justify-center grow h-8"
