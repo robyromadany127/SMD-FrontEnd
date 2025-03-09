@@ -35,8 +35,6 @@ const DropdownUser = ({ menuItemRef }: IDropdownUserProps) => {
     });
   };
 
-  console.log("currentusersidebar", currentUser);
-
   const buildHeader = () => {
     return (
       <div className="flex items-center justify-between px-5 py-1.5 gap-1.5">

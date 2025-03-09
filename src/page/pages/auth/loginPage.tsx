@@ -131,7 +131,7 @@ export default function LoginPage() {
 
   return (
     <LayoutLogin>
-      <div className="card max-w-[390px] w-full">
+      <div className="card max-w-[390px] w-full bg-[#FF9800]">
         <div className="p-10">
           <MenuSeparator />
           <div className="flex flex-col">
@@ -158,10 +158,16 @@ export default function LoginPage() {
             </a>
           </div>
 
+          <div className="flex items-center gap-2">
+            <span className="border-t border-red-600 w-full"></span>
+            <span className="text-2xs font-medium uppercase">Or</span>
+            <span className="border-t border-red-600 w-full"></span>
+          </div>
+
           {formik.status && <Alert variant="danger">{formik.status}</Alert>}
           <div className="flex flex-col gap-1">
             <label className="form-label text-gray-900">
-              {intl.formatMessage({ id: "employeeidentificationnumber" })}
+              {`${intl.formatMessage({ id: "employeeidentificationnumber" })} ${intl.formatMessage({ id: "or" })} ${intl.formatMessage({ id: "email" })}`}
             </label>
             <label className="input">
               <input

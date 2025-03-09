@@ -60,5 +60,7 @@
   "error.internalservererror": "Internal Server Error",
   "vendor": "Vendor",
   "addCountry": "Add Country",
-  "createCountry": "Create Country"
+  "createCountry": "Create Country",
+  "or": "or",
+  "email": "Email"
 }
