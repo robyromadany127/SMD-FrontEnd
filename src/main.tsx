@@ -10,26 +10,32 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import { ProvidersWrapper } from "./providers";
 import "@/components/keenicons/assets/styles.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const rootElement = document.getElementById("root")!;
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false, // default: true
+      refetchOnWindowFocus: false,
     },
   },
 });
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <QueryClientProvider client={queryClient}>
-          <ProvidersWrapper>
-            <App />
-          </ProvidersWrapper>
-          <ToastContainer />
-        </QueryClientProvider>
-      </PersistGate>
-    </Provider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <QueryClientProvider client={queryClient}>
+            <ProvidersWrapper>
+              <App />
+            </ProvidersWrapper>
+            <ToastContainer />
+          </QueryClientProvider>
+        </PersistGate>
+      </Provider>
+    </GoogleOAuthProvider>
   </React.StrictMode>
 );

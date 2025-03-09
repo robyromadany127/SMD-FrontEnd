@@ -6,7 +6,7 @@ import { useAuthContext } from "./useAuthContext";
 
 const RequireAuth = () => {
   const { auth, loading, currentUser } = useAuthContext();
-  console.log("auth", auth, "loading", loading, "currentUser", currentUser);
+  console.log("currentUser", currentUser);
   const location = useLocation();
 
   if (loading) {
