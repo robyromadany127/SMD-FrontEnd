@@ -64,5 +64,11 @@
   "createCountry": "Buat Negara",
   "or": "atau",
   "email": "Email",
-  "forgotPassword?": "Lupa Kata Sandi?"
+  "forgotPassword?": "Lupa Kata Sandi?",
+  "addReligion": "Tambah Agama",
+  "your_email": "Email Anda",
+  "enter_your_email_to_reset_your_password": "Masukkan email Anda untuk mengatur ulang kata sandi",
+  "password_reset_link_sent.please_check_your_email_to_proceed": "Tautan reset kata sandi telah dikirim. Silakan periksa email Anda untuk melanjutkan",
+  "continue": "Lanjutkan",
+  "back_to_login": "Kembali ke Login"
 }

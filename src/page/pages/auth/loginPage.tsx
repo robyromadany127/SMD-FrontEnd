@@ -14,6 +14,7 @@ import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { toAbsoluteUrl } from "@/utils";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
+import { mainColor } from "@/components/shared/color";
 
 export default function LoginPage() {
   const { login, auth } = useAuthContext();
@@ -131,7 +132,7 @@ export default function LoginPage() {
 
   return (
     <LayoutLogin>
-      <div className="card max-w-[390px] w-full bg-[#FF9800]">
+      <div className={`card max-w-[390px] w-full bg-[${mainColor}]`}>
         <div className="p-10">
           <MenuSeparator />
           <div className="flex flex-col">
@@ -139,6 +140,9 @@ export default function LoginPage() {
             <MenuSeparator />
           </div>
         </div>
+        <h1 className="text-2xl font-bold text-center">
+          {import.meta.env.VITE_APP_NAME}
+        </h1>
         <form
           className="card-body flex flex-col gap-5 p-10"
           noValidate

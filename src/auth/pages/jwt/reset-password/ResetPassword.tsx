@@ -10,6 +10,8 @@ import { Alert, KeenIcon } from "@/components";
 import { useLayout } from "@/providers";
 import { AxiosError } from "axios";
 import LayoutLogin from "@/layout/loginLayout";
+import { mainColor } from "@/components/shared/color";
+import { useIntl } from "react-intl";
 
 const initialValues = {
   email: "",
@@ -29,6 +31,7 @@ const ResetPassword = () => {
   const { requestPasswordResetLink } = useAuthContext();
   const { currentLayout } = useLayout();
   const navigate = useNavigate();
+  const intl = useIntl();
 
   const formik = useFormik({
     initialValues,
@@ -66,16 +69,20 @@ const ResetPassword = () => {
   });
   return (
     <LayoutLogin>
-      <div className="card max-w-[370px] w-full">
+      <div className={`card max-w-[390px] w-full bg-[${mainColor}]`}>
         <form
           className="card-body flex flex-col gap-5 p-10"
           noValidate
           onSubmit={formik.handleSubmit}
         >
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-gray-900">Your Email</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              {intl.formatMessage({ id: "your_email" })}
+            </h3>
             <span className="text-2sm text-gray-600 font-medium">
-              Enter your email to reset password
+              {intl.formatMessage({
+                id: "enter_your_email_to_reset_your_password",
+              })}
             </span>
           </div>
 
@@ -83,12 +90,16 @@ const ResetPassword = () => {
 
           {hasErrors === false && (
             <Alert variant="success">
-              Password reset link sent. Please check your email to proceed
+              {intl.formatMessage({
+                id: "password_reset_link_sent.please_check_your_email_to_proceed",
+              })}
             </Alert>
           )}
 
           <div className="flex flex-col gap-1">
-            <label className="form-label text-gray-900">Email</label>
+            <label className="form-label text-gray-900">
+              {intl.formatMessage({ id: "email" })}
+            </label>
             <label className="input">
               <input
                 type="email"
@@ -117,7 +128,9 @@ const ResetPassword = () => {
               className="btn btn-primary flex justify-center grow"
               disabled={loading || formik.isSubmitting}
             >
-              {loading ? "Please wait..." : "Continue"}
+              {loading
+                ? intl.formatMessage({ id: "loading" })
+                : intl.formatMessage({ id: "continue" })}
             </button>
 
             <Link
@@ -125,7 +138,7 @@ const ResetPassword = () => {
               className="flex items-center justify-center text-sm gap-2 text-gray-700 hover:text-primary"
             >
               <KeenIcon icon="black-left" />
-              Back to Login
+              {intl.formatMessage({ id: "back_to_login" })}
             </Link>
           </div>
         </form>

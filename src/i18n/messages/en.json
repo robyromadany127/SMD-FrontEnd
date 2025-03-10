@@ -64,5 +64,10 @@
   "or": "or",
   "email": "Email",
   "forgotPassword?": "Forgot Password?",
-  "addReligion": "Add Religion"
+  "addReligion": "Add Religion",
+  "your_email": "Your Email",
+  "enter_your_email_to_reset_your_password": "Enter your email to reset your password",
+  "password_reset_link_sent.please_check_your_email_to_proceed": "Password reset link sent. Please check your email to proceed",
+  "continue": "Continue",
+  "back_to_login": "Back to Login"
 }
