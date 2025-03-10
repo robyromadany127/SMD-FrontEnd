@@ -69,7 +69,7 @@ const ResetPassword = () => {
   });
   return (
     <LayoutLogin>
-      <div className={`card max-w-[390px] w-full bg-[${mainColor}]`}>
+      <div className={`card max-w-[390px] w-full bg-[#FFFCF1]`}>
         <form
           className="card-body flex flex-col gap-5 p-10"
           noValidate

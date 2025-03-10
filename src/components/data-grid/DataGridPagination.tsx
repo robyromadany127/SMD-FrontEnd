@@ -1,31 +1,33 @@
-import React from 'react';
-import { useDataGrid } from '.';
-import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
+import React from "react";
+import { useDataGrid } from ".";
+import { ChevronRightIcon, ChevronLeftIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useIntl } from "react-intl";
 
 const DataGridPagination = () => {
   const { table, totalRows, props } = useDataGrid();
-  const btnBaseClasses = 'size-7 p-0 text-[13px]';
-  const btnArrowClasses = btnBaseClasses + ' rtl:transform rtl:rotate-180';
+  const btnBaseClasses = "size-7 p-0 text-[13px]";
+  const btnArrowClasses = btnBaseClasses + " rtl:transform rtl:rotate-180";
   const pageIndex = table.getState().pagination.pageIndex;
   const pageSize = table.getState().pagination.pageSize;
   const from = pageIndex * pageSize + 1;
   const to = Math.min((pageIndex + 1) * pageSize, totalRows);
+  const intl = useIntl();
 
   // Replace placeholders in paginationInfo
   const paginationInfo = props.pagination?.info
     ? props.pagination.info
-        .replace('{from}', from.toString())
-        .replace('{to}', to.toString())
-        .replace('{count}', totalRows.toString())
+        .replace("{from}", from.toString())
+        .replace("{to}", to.toString())
+        .replace("{count}", totalRows.toString())
     : `${from} - ${to} of ${totalRows}`;
 
   // Pagination limit logic
@@ -33,8 +35,12 @@ const DataGridPagination = () => {
   const paginationMoreLimit = props.pagination?.moreLimit || 5;
 
   // Determine the start and end of the pagination group
-  const currentGroupStart = Math.floor(pageIndex / paginationMoreLimit) * paginationMoreLimit;
-  const currentGroupEnd = Math.min(currentGroupStart + paginationMoreLimit, pageCount);
+  const currentGroupStart =
+    Math.floor(pageIndex / paginationMoreLimit) * paginationMoreLimit;
+  const currentGroupEnd = Math.min(
+    currentGroupStart + paginationMoreLimit,
+    pageCount
+  );
 
   // Render page buttons based on the current group
   const renderPageButtons = () => {
@@ -44,8 +50,8 @@ const DataGridPagination = () => {
         <Button
           key={i}
           variant="ghost"
-          className={cn(btnBaseClasses, 'text-muted-foreground', {
-            'bg-accent text-accent-foreground': pageIndex === i
+          className={cn(btnBaseClasses, "text-muted-foreground", {
+            "bg-accent text-accent-foreground": pageIndex === i,
           })}
           onClick={() => table.setPageIndex(i)}
         >
@@ -94,7 +100,9 @@ const DataGridPagination = () => {
       data-pagination
     >
       <div className="flex items-center space-x-2 order-2 md:order-1 pb-2 md:pb-0">
-        <div className="text-sm text-muted-foreground">Rows per page</div>
+        <div className="text-sm text-muted-foreground">
+          {intl.formatMessage({ id: "show" })}
+        </div>
         <Select
           value={`${table.getState().pagination.pageSize}`}
           onValueChange={(value) => {
@@ -105,7 +113,7 @@ const DataGridPagination = () => {
             <SelectValue placeholder={table.getState().pagination.pageSize} />
           </SelectTrigger>
           <SelectContent side="top">
-            {props.pagination?.sizes?.map((pageSize) => (
+            {Object.values(props.pagination?.sizes || {}).map((pageSize) => (
               <SelectItem key={pageSize} value={`${pageSize}`}>
                 {pageSize}
               </SelectItem>

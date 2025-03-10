@@ -69,5 +69,19 @@
   "enter_your_email_to_reset_your_password": "Enter your email to reset your password",
   "password_reset_link_sent.please_check_your_email_to_proceed": "Password reset link sent. Please check your email to proceed",
   "continue": "Continue",
-  "back_to_login": "Back to Login"
+  "back_to_login": "Back to Login",
+  "showing": "Showing",
+  "of": "of",
+  "religions": "Religions",
+  "fetching": "Fetching",
+  "created_by": "Created By",
+  "created_at": "Created At",
+  "updated_by": "Updated By",
+  "updated_at": "Updated At",
+  "status": "Status",
+  "active": "Active",
+  "inactive": "Inactive",
+  "action": "Action",
+  "show": "Show",
+  "search_religion": "Search Religion"
 }

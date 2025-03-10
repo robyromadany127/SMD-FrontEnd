@@ -132,7 +132,7 @@ export default function LoginPage() {
 
   return (
     <LayoutLogin>
-      <div className={`card max-w-[390px] w-full bg-[${mainColor}]`}>
+      <div className={`card max-w-[390px] w-full bg-[#FFFCF1]`}>
         <div className="p-10">
           <MenuSeparator />
           <div className="flex flex-col">
